@@ -2,7 +2,7 @@ import gif from "../../assets/dance.gif"
 import './module.menuscreen.css';
 import { useState } from "react";
 
-export const MenuScreen = ({ points, startGame }) => {
+export const MenuScreen = ({ points, startGame, userName }) => {
   const [cursorCoord, setCursorCoord] = useState({left: 0, top: 0})
 
   function handleMouseMove(e) {
@@ -11,7 +11,7 @@ export const MenuScreen = ({ points, startGame }) => {
 
   return (
     <div className="menu-screen">
-        <h1 className="prev-point-name">High Score: {points}</h1>
+        <h1 className="prev-point-name">{userName}'s High Score: {points}</h1>
         <hr/>
 
         <button 

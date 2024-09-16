@@ -1,0 +1,19 @@
+.signin-screen {
+    width: 100vw;
+    height: 100vh;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    gap: 1em;
+}
+
+#button {
+    font-size: 25px;
+    border: 1px solid black;
+    border-radius: 12px;
+    padding: .3em 1em;
+
+}

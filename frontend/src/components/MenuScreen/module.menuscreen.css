@@ -1,7 +1,7 @@
 .menu-screen {
     width: 100vw;
     height: 100vh;
-
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,7 +16,6 @@
     border-radius: 12px;
     padding: .3em 1em;
 
-    background-color: transparent;
 
     cursor: pointer;
 }
