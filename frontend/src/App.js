@@ -37,6 +37,11 @@ function App() {
     }
   })
 
+  const fetchLeaderboard = useQuery("leaderboard", async () => {
+    const response = await axios.get("http://localhost:5000/getAllHighScores");
+    return response.data;
+  });
+
   useEffect(() => {
     let timer_two;
     if (seconds > 0) {
@@ -99,6 +104,7 @@ function App() {
         points={highscore} 
         startGame={startGame} 
         userName={userName}
+        leaderboard = {fetchLeaderboard.data}
       />
     )
   ) : (

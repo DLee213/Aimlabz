@@ -10,13 +10,26 @@
     gap: 1em;
 }
 
+.leaderboard {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content :left;
+    align-items: center;
+    flex-direction: column;
+
+    gap: 1em;
+
+}
+
 .start-game-btn {
     font-size: 25px;
     border: 1px solid black;
     border-radius: 12px;
     padding: .3em 1em;
 
-
+    
     cursor: pointer;
 }
 
