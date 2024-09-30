@@ -5,7 +5,7 @@ import { useMutation, useQuery} from "react-query";
 import axios from "axios";
 
 import { MenuScreen } from "./components/MenuScreen/MenuScreen.jsx"
-import { Game } from "./components/Game/Game.jsx"
+import { Game } from "./components/Game/NormalGame/NormalGame.jsx"
 import {SignIn} from "./components/SignIn/SignIn.jsx"
 
 

@@ -2,6 +2,8 @@ import gif from "../../assets/dance.gif"
 import './module.menuscreen.css';
 import { useState } from "react";
 
+// Game Imports
+
 export const MenuScreen = ({ points, startGame, userName, leaderboard }) => {
   const [cursorCoord, setCursorCoord] = useState({ left: 0, top: 0 })
 
@@ -11,33 +13,47 @@ export const MenuScreen = ({ points, startGame, userName, leaderboard }) => {
 
   return (
     <div className="menu-screen">
-      <div className="leaderboard">
-        <h2>Leaderboard</h2>
-        <ul>
-          {leaderboard.slice(0, 5).map((entry, index) => (
-            <li key={index}>
-              {index + 1}. {entry.user}: {entry.score}
-            </li>
-          ))}
-        </ul>
+      <div className="menu-info">
+        <h1>High Score: {points}</h1>
+
+        <div className="leaderboard">
+          <h2>Leaderboard</h2>
+          <ul>
+            {leaderboard.slice(0, 5).map((entry, index) => (
+              <li key={index}>
+                {index + 1}. {userName === entry.user ? (
+                  <strong>{entry.user} (you): {entry.score}</strong>
+                ) : (
+                  <>
+                    {entry.user} : {entry.score}
+                  </>
+                )}
+
+              </li>
+            ))}
+          </ul>
+
+        </div>
+
+        <button
+          onClick={startGame}
+          onMouseMove={handleMouseMove}
+          className="start-game-btn"
+        >
+          <img
+            src={gif}
+            alt="dancing marshmallow guy"
+            id="dancing-marshmallow-gif"
+            style={{ left: `${cursorCoord.left}px` }}
+          />
+          Start Game!
+        </button>
       </div>
 
-      <h1 className="prev-point-name">{userName}'s High Score: {points}</h1>
-      <hr />
+      <div className="game-options">
+          <h1>GAME OPTIONS</h1>
 
-      <button
-        onClick={startGame}
-        onMouseMove={handleMouseMove}
-        className="start-game-btn"
-      >
-        <img
-          src={gif}
-          alt="dancing marshmallow guy"
-          id="dancing-marshmallow-gif"
-          style={{ left: `${cursorCoord.left}px` }}
-        />
-        Start Game!
-      </button>
+      </div>
     </div>
   )
 }

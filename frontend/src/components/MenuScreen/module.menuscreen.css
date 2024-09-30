@@ -1,51 +1,72 @@
+/* @import url("/frontend/src/shared/colors.css"); */
+
 .menu-screen {
     width: 100vw;
     height: 100vh;
     
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    /* background-color: rgb(8, 46, 8); */
+}
+
+/* Menu Info Column */
+.menu-info {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    
+    border: 1px solid black;
 
-    gap: 1em;
+    gap: 2em;
+
 }
 
 .leaderboard {
-    width: 100vw;
-    height: 100vh;
-
-    display: flex;
-    justify-content :left;
-    align-items: center;
-    flex-direction: column;
-
-    gap: 1em;
+    font-size: 36px;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 1em;
 
 }
 
-.start-game-btn {
-    font-size: 25px;
-    border: 1px solid black;
-    border-radius: 12px;
-    padding: .3em 1em;
-
-    
-    cursor: pointer;
+.menu-info h1 {
+    font-size: 50px;
 }
+
+.leaderboard li {
+    border-top: 1px solid black;
+    list-style: none;
+}   
 
 #dancing-marshmallow-gif {
     position: absolute;
     opacity: 0;
-    width: 200px;
-    height: 200px;
-    z-index: -1;
+    width: 400px;
+    height: 400px;
+}
+
+.start-game-btn {
+    font-size: 40px;
+    border: 1px solid black;
+    border-radius: 12px;
+    padding: .3em 1em;
+
+
+    cursor: pointer;
 }
 
 .start-game-btn:hover {
-    font-size: 26px;
+    font-size: 42px;
 }
 
 .start-game-btn:hover #dancing-marshmallow-gif {
     opacity: 1;
     transform: translate(-50%, -132.5%);
+}
+
+
+/* Game Options */
+.game-options {
+    border: 1px solid black;
 }

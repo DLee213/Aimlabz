@@ -1,5 +1,5 @@
 import React from 'react'
-import './module.gamescreen.css';
+import './module.NormalGame.css';
 
 
 export const Game = ({ points, handlePoints, logoPosition, seconds }) => {
