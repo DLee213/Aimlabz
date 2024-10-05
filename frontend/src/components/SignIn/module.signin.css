@@ -7,11 +7,8 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-family:fantasy;
+    /* font-family:fantasy; */
     gap: 1em;
-
-    background: #222222;
-
 }
 
 /* Title */
@@ -19,8 +16,9 @@
     text-transform: uppercase;
     letter-spacing: 4px;
 
-    font-size: 40px;
-    font-style: italic;
+    font-size: 60px;
+    font-weight: bold;
+
 }
 
 /* Sign-In Container */
@@ -31,23 +29,80 @@
     flex-direction: column;
     gap: 1em;
     
-    width: 540px;
-    height: 400px;
+    background: rgba(234, 234, 234, 0.218);
+    box-shadow: 0 8px 20px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 6px );
+    -webkit-backdrop-filter: blur( 6px );
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.381);
 
-    border: 1px solid black;
-    border-radius: 12px;
+    width: 33%;
+    height: 50%;
 
     padding: 4em;
+
+    cursor: grab;
 }
 
-#button {
-    font-size: 25px;
-    border: 1px solid black;
-    border-radius: 36px;
-    padding: .3em 1em;
-    background-color: rgb(28, 94, 57);
-    font-family: 'Times New Roman', Times, serif;
+.signin-container:active {
+    cursor: grabbing;
 }
+
+/* Form Container */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    height: 100%;
+    width: 100%;
+
+    /* gap: 1em; */
+}
+
+.signin {
+    font-size: 24px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+.signin-input {
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 0.4rem;
+    width: 100%
+}
+/* 
+.signin-input:active {
+    border: 1px solid black;
+} */
+
+#login-button {
+    font-size: 28px;
+    font-weight: 800;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    width: 100%;
+
+    cursor: pointer;
+
+    border: none;
+    border-radius: 12px;
+
+    padding: .3em 1em;
+
+    background-image: linear-gradient(to right, rgb(37, 103, 246), rgb(87, 173, 227), rgb(0, 81, 255));
+
+    /* background-color: rgb(43, 43, 43); */
+    
+    margin: 1em 0;
+}
+
+/* SVG Styling */
 
 circle,
 rect,
@@ -55,4 +110,16 @@ line {
   stroke-width: 10px;
   stroke-linecap: round;
   fill: transparent;
+}
+
+/* AimLabz Container */
+.aimlabz-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    z-index: -1
 }
