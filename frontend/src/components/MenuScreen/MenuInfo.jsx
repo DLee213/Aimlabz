@@ -66,6 +66,7 @@ const MenuInfo = ({ selectedGame, userName, points, leaderboard, startGame}) => 
         onMouseMove={handleMouseMove}
         className="start-game-btn"
         whileHover={{ scale: 1.1 }}
+        whileTap={{scale: 1}}
       >
         <img
           src={gif}
@@ -73,7 +74,7 @@ const MenuInfo = ({ selectedGame, userName, points, leaderboard, startGame}) => 
           id="dancing-marshmallow-gif"
           style={{ left: `${cursorCoord.left}px` }}
         />
-        {selectedGame ? `Play ${selectedGame}` : "Select Game"}
+        {selectedGame ? <p id="game-name">Play {selectedGame}</p> : "Select Game"}
       </motion.button>
     </div>
   );
