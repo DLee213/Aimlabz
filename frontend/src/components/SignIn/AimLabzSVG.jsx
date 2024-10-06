@@ -123,7 +123,7 @@ const AimLabzSVG = () => {
         y1="280"
         x2="10"
         y2="400"
-        stroke="#0099ff"
+        stroke="#ff0055"
         variants={draw}
         custom={4}
       />
@@ -133,7 +133,7 @@ const AimLabzSVG = () => {
         y1="400"
         x2="130"
         y2="400"
-        stroke="#0099ff"
+        stroke="#ff0055"
         variants={draw}
         custom={4.1}
       />
