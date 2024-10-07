@@ -6,8 +6,7 @@ import { useState } from "react";
 
 // Game Imports
 
-export const MenuScreen = ({ points, startGame, userName, leaderboard }) => {
-  const [selectedGame, setSelectedGame] = useState(null);
+export const MenuScreen = ({ points, startGame, userName, leaderboard, selectedGame, setSelectedGame }) => {
 
   return (
     <div className="menu-screen">
@@ -17,6 +16,7 @@ export const MenuScreen = ({ points, startGame, userName, leaderboard }) => {
         userName={userName}
         leaderboard={leaderboard}
         startGame={startGame}
+        points={points}
       />
 
       <GameOptions 

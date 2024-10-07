@@ -1,11 +1,20 @@
 import React from 'react'
+import './module.TrackingGame.css';
 
-const TrackingGame = () => {
+export const TrackingGame = ({ timer, logoPosition, seconds, setIsHovering }) => {
   return (
-    <div>
-        <h1>TRACKING GAME !!!!</h1>
-    </div>
-  )
-}
+    <div className="game-container">
+        <h1 className="second-name">Timer: {seconds}</h1>
+        <p className="point-name">Tracked Time: {(timer / 100).toFixed(2)} seconds</p>
+        
+        <div
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+            id='ball'
+            alt="logo"
+            style={{ position: "absolute", top: logoPosition.top, left: logoPosition.left }}
+        ></div>
 
-export default TrackingGame
+    </div>
+)
+}

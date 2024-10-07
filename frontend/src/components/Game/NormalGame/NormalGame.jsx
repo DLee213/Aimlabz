@@ -2,7 +2,7 @@ import React from 'react'
 import './module.NormalGame.css';
 
 
-export const Game = ({ points, handlePoints, logoPosition, seconds }) => {
+export const NormalGame = ({ points, handlePoints, logoPosition, seconds }) => {
     return (
         <div className="game-container">
             <h1 className="second-name">Timer: {seconds}</h1>
