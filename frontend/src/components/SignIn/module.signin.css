@@ -74,10 +74,17 @@
     padding: 0.4rem;
     width: 100%
 }
-/* 
-.signin-input:active {
-    border: 1px solid black;
-} */
+
+.blank-username {
+    border: 2px solid red;
+    border-radius: 8px;
+    padding: 0.4rem;
+    width: 100%
+}
+
+#error-message {
+    color: red;
+}
 
 #login-button {
     font-size: 28px;

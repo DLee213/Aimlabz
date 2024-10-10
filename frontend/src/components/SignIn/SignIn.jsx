@@ -2,7 +2,22 @@ import "./module.signin.css";
 import { motion } from "framer-motion";
 import AimLabzSVG from "./AimLabzSVG"
 
+import { useState } from "react";
+
 export const SignIn = ({ login, userName, setUserName }) => {
+  const [blankUserName, setBlankUserName] = useState(false);
+
+  function handleLogin(e) {
+    e.preventDefault()
+    setBlankUserName(false)
+
+    if (userName.length > 0) {
+      login();
+    } else {
+      setBlankUserName(true)
+    }
+  }
+
   return (
     <div className="signin-screen">
       <motion.div
@@ -24,10 +39,10 @@ export const SignIn = ({ login, userName, setUserName }) => {
             type="text"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            className="signin-input"
+            className={blankUserName ? "blank-username" : "signin-input"}
           />
           <motion.button
-            onClick={login}
+            onClick={handleLogin}
             id="login-button"
             whileHover={{ scale: 1.2 }}
             onHoverStart={(e) => {}}
@@ -36,6 +51,8 @@ export const SignIn = ({ login, userName, setUserName }) => {
             Login
           </motion.button>
         </form>
+
+        {blankUserName && <p id="error-message">Can not have an empty username</p>}
       </motion.div>
 
       <AimLabzSVG />
