@@ -19,21 +19,22 @@ mongoose.connect('mongodb://localhost:27017/game', {
 const highScoreSchema = new mongoose.Schema({
     user: String,
     score: Number,
+    time: Number
 });
 
 const HighScore = mongoose.model('HighScore', highScoreSchema);
 
 app.post('/saveHighScore', async (req, res) => {
-    const { userName, score} = req.body
+    const { userName, score, time} = req.body
 
-    if (!userName || score === undefined) {
+    if (!userName || score === undefined || time === undefined) {
         return res.status(400).json({ message: 'Username required' })
     }
 
     try {
         const highScore = await HighScore.findOneAndUpdate(
             { user: userName },
-            { $set: { score } },
+            { $set: { score, time } },
             { new: true, upsert: true } // Creates a new document if none exists
         )
         res.status(200).json(highScore)

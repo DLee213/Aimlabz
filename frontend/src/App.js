@@ -14,37 +14,39 @@ const BUTTON_WIDTH = 50
 const BUTTON_HEIGHT = 150
 
 function App() {
+  // Signin
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [userName, setUserName] = useState("");
+
+  // Game Settings
+  const [selectedGame, setSelectedGame] = useState(null);
+  const [logoPosition, setLogoPosition] = useState({ top: 0, left: 0 })
+
+  // Normal Game
   const [seconds, setSeconds] = useState(0);
   const [points, setPoints] = useState(0);
   const [highscore, setHighScore] = useState(0);
-  const [highscoreTime, setHighScoreTime] = useState(0);
-  const [logoPosition, setLogoPosition] = useState({ top: 0, left: 0 })
-  const [userName, setUserName] = useState("");
-  const [selectedGame, setSelectedGame] = useState(null);
+
+  // Tracking Game
   const [timer, setTimer] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
-  const [ballPosition, setBallPosition] = useState({ top: 0, left: 0 });
-  const [direction, setDirection] = useState({ x: 1, y: 1 });
-  const speed = 1.5;
+  const [highscoreTime, setHighScoreTime] = useState(0);
 
-
-  const saveHighScoreMutation = useMutation(async ({ userName, score }) => {
-    return await axios.post("http://localhost:5000/saveHighScore", { userName, score })
-  })
-
-  const fetchHighScore = useQuery(["highscore", userName], async () => {
+  // Fetch user high score
+  const fetchUserHighScore = useQuery(["highscore", userName], async () => {
     const response = await axios.get(`http://localhost:5000/getHighScore/${userName}`)
     return response.data
   }, {
     enabled: !!userName && isSignedIn,
     onSuccess: (data) => {
-      if (data && data.score) {
         setHighScore(data.score);
-
-      }
+        setHighScoreTime(data.time);
     }
+  })
+
+  const saveHighScoreMutation = useMutation(async ({ userName, score, time }) => {
+    return await axios.post("http://localhost:5000/saveHighScore", { userName, score, time })
   })
 
   const fetchLeaderboard = useQuery("leaderboard", async () => {
@@ -62,10 +64,11 @@ function App() {
 
     if (seconds === 0 && isPlaying) {
       setIsPlaying(false);
-
-      if (points > highscore) {
-        setHighScore(points);
-        saveHighScoreMutation.mutate({ userName, score: points })
+      
+      if (points > highscore || timer > highscoreTime) {
+        setHighScore(points > highscore ? points :  highscore);
+        setHighScoreTime(timer > highscoreTime ? timer : highscoreTime)
+        saveHighScoreMutation.mutate({ userName, score: points, time: timer})
       }
     }
 
@@ -75,7 +78,7 @@ function App() {
 
   useEffect(() => {
     let timerInterval;
-    if (isHovering) {
+    if (isHovering && selectedGame === "tracking") {
       timerInterval = setInterval(() => {
         setTimer((prevTimer) => prevTimer + 1);
       }, 10);
@@ -87,31 +90,6 @@ function App() {
       clearInterval(timerInterval);
     };
   }, [isHovering]);
-
-  useEffect(() => {
-    const moveBall = () => {
-      setBallPosition(prevPosition => {
-        let newTop = prevPosition.top + direction.y * speed;
-        let newLeft = prevPosition.left + direction.x * speed;
-
-        const maxWidth = window.innerWidth - BUTTON_WIDTH;
-        const maxHeight = window.innerHeight - BUTTON_HEIGHT;
-
-        if (newTop <= 0 || newTop >= maxHeight) {
-          setDirection(prevDirection => ({ ...prevDirection, y: -prevDirection.y }));
-        }
-        if (newLeft <= 0 || newLeft >= maxWidth) {
-          setDirection(prevDirection => ({ ...prevDirection, x: -prevDirection.x }));
-        }
-
-        return { top: newTop, left: newLeft };
-      });
-    };
-
-    const interval = setInterval(moveBall, 10);
-
-    return () => clearInterval(interval);
-  }, [direction]);
 
 
   function handlePoints() {
@@ -131,7 +109,7 @@ function App() {
 
   function startGame() {
     setIsPlaying(true);
-    setSeconds(10);
+    setSeconds(3);
     setPoints(0);
     setRandomLogoPosition();
     setTimer(0);
@@ -153,7 +131,8 @@ function App() {
               seconds={seconds} />
           ) : (
             <TrackingGame
-              ballPosition={ballPosition}
+              setRandomLogoPosition={setRandomLogoPosition}
+              logoPosition={logoPosition}
               timer={timer}
               seconds={seconds}
               setIsHovering={setIsHovering}
@@ -161,7 +140,7 @@ function App() {
           )
         ) : (
           <MenuScreen
-            timer={highscore}
+            timer={highscoreTime}
             points={highscore}
             startGame={startGame}
             userName={userName}

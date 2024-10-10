@@ -6,11 +6,12 @@ import { useState } from "react";
 
 // Game Imports
 
-export const MenuScreen = ({ points, startGame, userName, leaderboard, selectedGame, setSelectedGame }) => {
+export const MenuScreen = ({ timer, points, startGame, userName, leaderboard, selectedGame, setSelectedGame }) => {
 
   return (
     <div className="menu-screen">
       <MenuInfo
+        timer={timer}
         selectedGame={selectedGame} 
         setSelectedGame={setSelectedGame}
         userName={userName}
