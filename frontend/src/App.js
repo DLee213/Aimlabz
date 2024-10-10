@@ -53,6 +53,11 @@ function App() {
     const response = await axios.get("http://localhost:5000/getAllHighScores");
     return response.data;
   });
+  
+  const fetchTimeLeaderboard = useQuery("timeLeaderboard", async () => {
+    const response = await axios.get("http://localhost:5000/getAllHighScoreTimes");
+    return response.data;
+  });
 
   useEffect(() => {
     let timer_two;
@@ -145,6 +150,7 @@ function App() {
             startGame={startGame}
             userName={userName}
             leaderboard={fetchLeaderboard.data}
+            timeLeaderboard={fetchTimeLeaderboard.data}
             selectedGame={selectedGame}
             setSelectedGame={setSelectedGame}
           />

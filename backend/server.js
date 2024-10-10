@@ -64,6 +64,11 @@ app.get('/getAllHighScores', async (req, res) => {
     res.json(highScores)
 })
 
+app.get('/getAllHighScoreTimes', async (req, res) => {
+    const highScoreTimes = await HighScore.find().sort({time: -1})
+    res.json(highScoreTimes)
+})
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })

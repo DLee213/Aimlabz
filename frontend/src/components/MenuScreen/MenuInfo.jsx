@@ -2,7 +2,7 @@ import { useState } from "react";
 import gif from "../../assets/dance.gif"
 import { motion } from "framer-motion"
 
-const MenuInfo = ({ timer, selectedGame, userName, points, leaderboard, startGame}) => {
+const MenuInfo = ({ timer, selectedGame, userName, points, timeLeaderboard, leaderboard, startGame}) => {
     const [cursorCoord, setCursorCoord] = useState({ left: 0, top: 0 })
 
     function handleMouseMove(e) {
@@ -42,7 +42,7 @@ const MenuInfo = ({ timer, selectedGame, userName, points, leaderboard, startGam
           <div className="normal-leaderboard">
             <h2>Tracking Game Leaderboard</h2>
             <ul>
-              {leaderboard.slice(0, 5).map((entry, index) => (
+              {timeLeaderboard.slice(0, 5).map((entry, index) => (
                 <li key={index}>
                   {index + 1}.{" "}
                   {userName === entry.user ? (
