@@ -19,11 +19,15 @@ function App() {
   const [seconds, setSeconds] = useState(0);
   const [points, setPoints] = useState(0);
   const [highscore, setHighScore] = useState(0);
+  const [highscoreTime, setHighScoreTime] = useState(0);
   const [logoPosition, setLogoPosition] = useState({ top: 0, left: 0 })
   const [userName, setUserName] = useState("");
   const [selectedGame, setSelectedGame] = useState(null);
   const [timer, setTimer] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [ballPosition, setBallPosition] = useState({ top: 0, left: 0 });
+  const [direction, setDirection] = useState({ x: 1, y: 1 });
+  const speed = 1.5;
 
 
   const saveHighScoreMutation = useMutation(async ({ userName, score }) => {
@@ -38,6 +42,7 @@ function App() {
     onSuccess: (data) => {
       if (data && data.score) {
         setHighScore(data.score);
+
       }
     }
   })
@@ -84,8 +89,30 @@ function App() {
   }, [isHovering]);
 
   useEffect(() => {
-    
-  })
+    const moveBall = () => {
+      setBallPosition(prevPosition => {
+        let newTop = prevPosition.top + direction.y * speed;
+        let newLeft = prevPosition.left + direction.x * speed;
+
+        const maxWidth = window.innerWidth - BUTTON_WIDTH;
+        const maxHeight = window.innerHeight - BUTTON_HEIGHT;
+
+        if (newTop <= 0 || newTop >= maxHeight) {
+          setDirection(prevDirection => ({ ...prevDirection, y: -prevDirection.y }));
+        }
+        if (newLeft <= 0 || newLeft >= maxWidth) {
+          setDirection(prevDirection => ({ ...prevDirection, x: -prevDirection.x }));
+        }
+
+        return { top: newTop, left: newLeft };
+      });
+    };
+
+    const interval = setInterval(moveBall, 10);
+
+    return () => clearInterval(interval);
+  }, [direction]);
+
 
   function handlePoints() {
     setPoints(prev => prev + 1);
@@ -101,8 +128,6 @@ function App() {
 
     setLogoPosition({ top: randomTop, left: randomLeft });
   }
-
-  
 
   function startGame() {
     setIsPlaying(true);
@@ -128,7 +153,7 @@ function App() {
               seconds={seconds} />
           ) : (
             <TrackingGame
-              logoPosition={logoPosition}
+              ballPosition={ballPosition}
               timer={timer}
               seconds={seconds}
               setIsHovering={setIsHovering}
@@ -136,6 +161,7 @@ function App() {
           )
         ) : (
           <MenuScreen
+            timer={highscore}
             points={highscore}
             startGame={startGame}
             userName={userName}

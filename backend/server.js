@@ -18,13 +18,13 @@ mongoose.connect('mongodb://localhost:27017/game', {
 
 const highScoreSchema = new mongoose.Schema({
     user: String,
-    score: Number
+    score: Number,
 });
 
 const HighScore = mongoose.model('HighScore', highScoreSchema);
 
 app.post('/saveHighScore', async (req, res) => {
-    const { userName, score } = req.body
+    const { userName, score} = req.body
 
     if (!userName || score === undefined) {
         return res.status(400).json({ message: 'Username required' })

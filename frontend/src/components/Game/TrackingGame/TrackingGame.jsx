@@ -1,7 +1,7 @@
 import React from 'react'
 import './module.TrackingGame.css';
 
-export const TrackingGame = ({ timer, logoPosition, seconds, setIsHovering }) => {
+export const TrackingGame = ({ timer, ballPosition, seconds, setIsHovering }) => {
   return (
     <div className="game-container">
         <h1 className="second-name">Timer: {seconds}</h1>
@@ -12,7 +12,7 @@ export const TrackingGame = ({ timer, logoPosition, seconds, setIsHovering }) =>
             onMouseLeave={() => setIsHovering(false)}
             id='ball'
             alt="logo"
-            style={{ position: "absolute", top: logoPosition.top, left: logoPosition.left }}
+            style={{ position: "absolute", top: ballPosition.top, left: ballPosition.left }}
         ></div>
 
     </div>
