@@ -40,20 +40,24 @@ function App() {
   }, {
     enabled: !!userName && isSignedIn,
     onSuccess: (data) => {
-        setHighScore(data.score);
-        setHighScoreTime(data.time);
+      setHighScore(data.score);
+      setHighScoreTime(data.time);
     }
   })
 
-  const saveHighScoreMutation = useMutation(async ({ userName, score, time }) => {
-    return await axios.post("http://localhost:5000/saveHighScore", { userName, score, time })
+  const saveNormalGameMutation = useMutation(async ({ userName, score }) => {
+    return await axios.post("http://localhost:5000/saveHighScore", { userName, score })
   })
+  const saveTrackingGameMutation = useMutation(async ({ userName, time }) => {
+    return await axios.post("http://localhost:5000/saveHighScore", { userName, time })
+  })
+
 
   const fetchLeaderboard = useQuery("leaderboard", async () => {
     const response = await axios.get("http://localhost:5000/getAllHighScores");
     return response.data;
   });
-  
+
   const fetchTimeLeaderboard = useQuery("timeLeaderboard", async () => {
     const response = await axios.get("http://localhost:5000/getAllHighScoreTimes");
     return response.data;
@@ -69,11 +73,16 @@ function App() {
 
     if (seconds === 0 && isPlaying) {
       setIsPlaying(false);
-      
-      if (points > highscore || timer > highscoreTime) {
-        setHighScore(points > highscore ? points :  highscore);
-        setHighScoreTime(timer > highscoreTime ? timer : highscoreTime)
-        saveHighScoreMutation.mutate({ userName, score: points, time: timer})
+      if (selectedGame === "normal") {
+        if (points > highscore) {
+          setHighScore(points);
+          saveNormalGameMutation.mutate({ userName, score: points})
+        }
+      } else if (selectedGame === "tracking") {
+        if (timer > highscoreTime) {
+          setHighScoreTime(timer)
+          saveTrackingGameMutation.mutate({ userName, time: timer })
+        }
       }
     }
 
@@ -84,6 +93,7 @@ function App() {
   useEffect(() => {
     let timerInterval;
     if (isHovering && selectedGame === "tracking") {
+      console.log("Tracking game is being played")
       timerInterval = setInterval(() => {
         setTimer((prevTimer) => prevTimer + 1);
       }, 10);
@@ -114,7 +124,7 @@ function App() {
 
   function startGame() {
     setIsPlaying(true);
-    setSeconds(3);
+    setSeconds(10);
     setPoints(0);
     setRandomLogoPosition();
     setTimer(0);

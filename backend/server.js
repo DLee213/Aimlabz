@@ -25,24 +25,38 @@ const highScoreSchema = new mongoose.Schema({
 const HighScore = mongoose.model('HighScore', highScoreSchema);
 
 app.post('/saveHighScore', async (req, res) => {
-    const { userName, score, time} = req.body
+    const { userName, score, time } = req.body;
 
-    if (!userName || score === undefined || time === undefined) {
-        return res.status(400).json({ message: 'Username required' })
+    if (!userName) {
+        return res.status(400).json({ message: 'Username required' });
     }
 
     try {
-        const highScore = await HighScore.findOneAndUpdate(
-            { user: userName },
-            { $set: { score, time } },
-            { new: true, upsert: true } // Creates a new document if none exists
-        )
-        res.status(200).json(highScore)
+        const highScore = await HighScore.findOne({ user: userName });
+
+        if (highScore) {
+            if (score !== undefined) {
+                highScore.score = score;
+            }
+            if (time !== undefined) {
+                highScore.time = time;
+            }
+            await highScore.save();
+            res.status(200).json(highScore);
+        } else {
+            const newHighScore = new HighScore({
+                user: userName,
+                score: score,
+                time: time
+            });
+            await newHighScore.save();
+            res.status(201).json(newHighScore);
+        }
     } catch (err) {
-        console.error(err)
-        res.status(500).json({ message: 'Error saving highscore' })
+        console.error(err);
+        res.status(500).json({ message: 'Error saving highscore' });
     }
-})
+});
 
 app.get('/getHighScore/:userName', async (req, res) => {
     const { userName } = req.params

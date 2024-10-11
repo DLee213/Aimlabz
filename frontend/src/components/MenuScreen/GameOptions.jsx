@@ -53,7 +53,7 @@ const GameOptions = ({selectedGame, setSelectedGame}) => {
                 <CardMedia
                   component="img"
                   height="140"
-                  image="https://via.placeholder.com/345x140"
+                  image={"tracking-game.gif"}
                   alt="Tracking Game"
                 />
                 <CardContent>

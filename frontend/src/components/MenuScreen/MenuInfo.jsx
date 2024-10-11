@@ -38,7 +38,7 @@ const MenuInfo = ({ timer, selectedGame, userName, points, timeLeaderboard, lead
 
       {selectedGame === "tracking" && (
         <>
-          <h1>Longest Time: {timer}</h1>
+          <h1>Longest Time: {(timer / 100).toFixed(2)}s</h1>
           <div className="normal-leaderboard">
             <h2>Tracking Game Leaderboard</h2>
             <ul>
@@ -47,11 +47,11 @@ const MenuInfo = ({ timer, selectedGame, userName, points, timeLeaderboard, lead
                   {index + 1}.{" "}
                   {userName === entry.user ? (
                     <strong>
-                      {entry.user} (you): {entry.time}
+                      {entry.user} (you): {(entry.time / 100).toFixed(2)}s
                     </strong>
                   ) : (
                     <>
-                      {entry.user} : {entry.time}
+                      {entry.user} : {(entry.time / 100).toFixed(2)}s
                     </>
                   )}
                 </li>
