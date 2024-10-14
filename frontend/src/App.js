@@ -22,6 +22,8 @@ function App() {
   // Game Settings
   const [selectedGame, setSelectedGame] = useState(null);
   const [logoPosition, setLogoPosition] = useState({ top: 0, left: 0 })
+  const [isOn, setIsOn] = useState(false);
+  const toggleSwitch = () => setIsOn(!isOn);
 
   // Normal Game
   const [seconds, setSeconds] = useState(0);
@@ -45,13 +47,9 @@ function App() {
     }
   })
 
-  const saveNormalGameMutation = useMutation(async ({ userName, score }) => {
-    return await axios.post("http://localhost:5000/saveHighScore", { userName, score })
+  const saveGameMutation = useMutation(async ({ userName, score, time }) => {
+    return await axios.post("http://localhost:5000/saveHighScore", { userName, score, time })
   })
-  const saveTrackingGameMutation = useMutation(async ({ userName, time }) => {
-    return await axios.post("http://localhost:5000/saveHighScore", { userName, time })
-  })
-
 
   const fetchLeaderboard = useQuery("leaderboard", async () => {
     const response = await axios.get("http://localhost:5000/getAllHighScores");
@@ -73,27 +71,27 @@ function App() {
 
     if (seconds === 0 && isPlaying) {
       setIsPlaying(false);
+  
       if (selectedGame === "normal") {
         if (points > highscore) {
           setHighScore(points);
-          saveNormalGameMutation.mutate({ userName, score: points})
+          saveGameMutation.mutate({ userName, score: points, time: highscoreTime})
         }
       } else if (selectedGame === "tracking") {
         if (timer > highscoreTime) {
           setHighScoreTime(timer)
-          saveTrackingGameMutation.mutate({ userName, time: timer })
+          saveGameMutation.mutate({ userName, score: highscore, time: timer })
         }
       }
+      
     }
 
     return () => clearTimeout(timer_two);
-
   }, [seconds, isPlaying])
 
   useEffect(() => {
     let timerInterval;
     if (isHovering && selectedGame === "tracking") {
-      console.log("Tracking game is being played")
       timerInterval = setInterval(() => {
         setTimer((prevTimer) => prevTimer + 1);
       }, 10);
@@ -105,7 +103,6 @@ function App() {
       clearInterval(timerInterval);
     };
   }, [isHovering]);
-
 
   function handlePoints() {
     setPoints(prev => prev + 1);
@@ -124,7 +121,7 @@ function App() {
 
   function startGame() {
     setIsPlaying(true);
-    setSeconds(10);
+    setSeconds(3);
     setPoints(0);
     setRandomLogoPosition();
     setTimer(0);
@@ -163,6 +160,8 @@ function App() {
             timeLeaderboard={fetchTimeLeaderboard.data}
             selectedGame={selectedGame}
             setSelectedGame={setSelectedGame}
+            isOn={isOn}
+            toggleSwitch={toggleSwitch}
           />
         )
       ) : (
@@ -170,6 +169,7 @@ function App() {
           userName={userName}
           login={login}
           setUserName={setUserName}
+          isOn={isOn}
         />
       )}
     </div>
@@ -177,3 +177,49 @@ function App() {
 }
 
 export default App;
+
+
+// function useQuery(queryKey, queryFn, options = {}) {
+//   const { enabled = true, retry = 3, refetchInterval } = options; 
+//   const [data, setData] = useState(null);
+//   const [error, setError] = useState(null);
+//   const [status, setStatus] = useState('idle');
+//   const [retryCount, setRetryCount] = useState(0);
+
+//   useEffect(() => {
+//     let intervalId;
+
+//     const fetchData = async () => {
+//       setStatus('loading');
+
+//       try {
+//         const result = await queryFn();
+//         setData(result);
+//         setError(null);
+//         setStatus('success');
+//       } catch (err) {
+//         setError(err);
+//         setStatus('error');
+
+//         if (retryCount < retry) {
+//           setRetryCount((prevCount) => prevCount + 1);
+//         }
+//       }
+//     };
+
+//     if (enabled) {
+//       fetchData();
+//       if (refetchInterval) {
+//         intervalId = setInterval(fetchData, refetchInterval);
+//       }
+//     }
+
+//     return () => {
+//       if (intervalId) {
+//         clearInterval(intervalId);
+//       }
+//     };
+//   }, [queryKey, queryFn, enabled, retry, refetchInterval, retryCount]);
+
+//   return { data, error, status };
+// }

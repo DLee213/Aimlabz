@@ -74,8 +74,9 @@ app.get('/getHighScore/:userName', async (req, res) => {
 })
 
 app.get('/getAllHighScores', async (req, res) => {
-    const highScores = await HighScore.find().sort({score: -1})
-    res.json(highScores)
+        const highScores = await HighScore.find().sort({score: -1})
+        res.json(highScores)
+    
 })
 
 app.get('/getAllHighScoreTimes', async (req, res) => {

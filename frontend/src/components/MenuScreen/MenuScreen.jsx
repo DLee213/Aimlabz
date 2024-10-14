@@ -2,14 +2,15 @@ import GameOptions from "./GameOptions";
 import MenuInfo from "./MenuInfo";
 
 import './module.menuscreen.css';
-import { useState } from "react";
+
 
 // Game Imports
 
-export const MenuScreen = ({ timer, points, startGame, userName,timeLeaderboard, leaderboard, selectedGame, setSelectedGame }) => {
+export const MenuScreen = ({ timer, points, startGame, userName, timeLeaderboard, leaderboard, selectedGame, setSelectedGame, isOn, toggleSwitch }) => {
+
 
   return (
-    <div className="menu-screen">
+    <div className="menu-screen" data-isOn={isOn}>
       <MenuInfo
         timer={timer}
         selectedGame={selectedGame} 
@@ -24,6 +25,8 @@ export const MenuScreen = ({ timer, points, startGame, userName,timeLeaderboard,
       <GameOptions 
         selectedGame={selectedGame} 
         setSelectedGame={setSelectedGame}
+        isOn={isOn}
+        toggleSwitch={toggleSwitch}
       />
     </div>
   )

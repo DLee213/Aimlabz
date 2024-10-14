@@ -4,7 +4,7 @@ import AimLabzSVG from "./AimLabzSVG"
 
 import { useState } from "react";
 
-export const SignIn = ({ login, userName, setUserName }) => {
+export const SignIn = ({ login, userName, setUserName, isOn }) => {
   const [blankUserName, setBlankUserName] = useState(false);
 
   function handleLogin(e) {
@@ -19,7 +19,7 @@ export const SignIn = ({ login, userName, setUserName }) => {
   }
 
   return (
-    <div className="signin-screen">
+    <div className="signin-screen" data-isOn={isOn}>
       <motion.div
         className="signin-container"
         initial={{ opacity: 0, scale: 0.5 }}
